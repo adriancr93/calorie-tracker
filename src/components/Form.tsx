@@ -6,20 +6,28 @@ export default function Form() {
 
     const [activity, setActivity] = useState<Activity>({
         category: 1,
-        name: "",
+        name: '',
         calories: 0
     })
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
-    setActivity({
+    const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => { 
+      setActivity({
         ...activity,
-        [e.target.id]: e.target.value
-    })
-      
+        [e.target.id]: e.target.type === "number" ? +e.target.value : e.target.value  // Also: +e.target.value
+    }) 
+    }
+
+    const isValidActivity = () => {
+        const{ name, calories } = activity
+        return name.trim() !== '' && calories > 0
+    }
+
+    const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
     }
 
     return (
-      <form className="space-y-5 bg-white shadow p-10 rounded-lg">
+      <form className="space-y-5 bg-white shadow p-10 rounded-lg" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-3">
             <label htmlFor="category" className="font-bold">Categories:</label>
             <select className="border border-slate-300 p-2 rounded-ls w-full bg-white" id="category" value={activity.category} onChange={handleChange}>
@@ -32,8 +40,8 @@ export default function Form() {
         </div>
 
         <div className="grid grid-cols-1 gap-3">
-            <label htmlFor="activity" className="font-bold">Activity:</label>
-            <input type="text" id="activity" className="border border-slate-300 p-2 rounded-lg" placeholder="Ej. Food, Juice, Salad, Workout, Weights, Bicicle" value={activity.name} onChange={handleChange}/>
+            <label htmlFor="name" className="font-bold">Activity:</label>
+            <input type="text" id="name" className="border border-slate-300 p-2 rounded-lg" placeholder="Ej. Food, Juice, Salad, Workout, Weights, Bicicle" value={activity.name} onChange={handleChange}/>
         </div>
         
         <div className="grid grid-cols-1 gap-3">
@@ -41,7 +49,7 @@ export default function Form() {
             <input type="number" id="calories" className="border border-slate-300 p-2 rounded-lg" placeholder="Calories. ej. 300 or 500" value={activity.calories} onChange={handleChange}/>
         </div>
 
-        <input type="submit" className="bg-gray-800 hover:bg-gray-900 w-full p-2 font-bold uppercase text-white cursor-pointer" value={"SAVE FOOD OR SAVE WORKOUT"} />
+        <input type="submit" className="bg-gray-800 hover:bg-gray-900 w-full p-2 font-bold uppercase text-white cursor-pointer disabled:opacity-10" value={activity.category === 1 ? 'Save Food' : 'Save Workout'} disabled={!isValidActivity()}/>
 
       </form>
     )

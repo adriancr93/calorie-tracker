@@ -1,69 +1,39 @@
-# React + TypeScript + Vite
+React + TypeScript + Vite
+useReducer: An Alternative to useState
+What is useReducer?
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+useReducer is a React Hook that lets you add a reducer to your component.
 
-Currently, two official plugins are available:
+The useReducer hook is an alternative to useState that is often used for handling more complex state logic.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+While useState is perfect for simple state management, useReducer is better suited when:
 
-## Expanding the ESLint configuration
+The new state depends on the previous state.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+There are multiple sub-values to manage.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Conditional or complex state transitions are involved.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Syntax
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The useReducer hook takes two arguments:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Reducer → A function that takes the current state and an action, then returns the new state.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Initial State → The starting state value.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+const [state, dispatch] = useReducer(reducer, initialState);
+
+Key Terminology in useReducer
+
+When working with reducers, you’ll come across a few common terms:
+
+state → The current value of the state managed by the reducer.
+
+initialState → The starting state when the reducer is first created. (Similar to the initial value in useState.)
+
+actions → Objects that describe what should happen. They contain the logic for updating the state.
+
+payload → The data passed along with an action to update the state.
+
+dispatch → The function used to send (or “dispatch”) an action with its payload to the reducer.
