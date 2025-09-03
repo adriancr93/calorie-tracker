@@ -1,10 +1,6 @@
-# React + TypeScript + Vite
+# useReducer: An Alternative to useState
 
-## useReducer: An Alternative to useState
-
-### What is useReducer?
-
-![Reducer Concept](https://react.dev/images/docs/reducer.svg)
+## What is useReducer?
 
 **useReducer** is a React Hook that lets you add a reducer to your component.
 
