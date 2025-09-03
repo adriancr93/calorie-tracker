@@ -1,14 +1,31 @@
-import { useState, type ChangeEvent } from "react"
+import { useState, type ChangeEvent, useEffect } from "react"
+import { v4 as uuidv4 } from 'uuid'
 import type { Activity } from "../types"
 import { categories } from "../data/categories"
+import type { ActivityActions, ActivityState } from "../reducers/activity-reducer"
 
-export default function Form() {
+type FormProps = {
+    dispatch: React.Dispatch<ActivityActions>,
+    state: ActivityState
+}
 
-    const [activity, setActivity] = useState<Activity>({
-        category: 1,
-        name: '',
-        calories: 0
-    })
+const initialState : Activity = {
+  id: uuidv4(),
+  category: 1,
+  name: '',
+  calories: 0
+}
+
+export default function Form({dispatch, state} : FormProps) {
+
+    const [activity, setActivity] = useState<Activity>(initialState)
+
+    useEffect(() => {
+      if(state.activeId) {
+        const selectedActivity = state.activities.filter( stateActivity => stateActivity.id === state.activeId)[0]
+        setActivity(selectedActivity)
+      }
+    }, [state.activeId])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => { 
       setActivity({
@@ -24,6 +41,13 @@ export default function Form() {
 
     const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
+
+      dispatch({
+        type: 'save-activity',
+        payload: { newActivity: activity }
+      })
+
+      setActivity({ ...initialState , id: uuidv4() }) // Reset form and generate new id
     }
 
     return (
