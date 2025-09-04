@@ -30,8 +30,8 @@ export default function Form({dispatch, state} : FormProps) {
     const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => { 
       setActivity({
         ...activity,
-        [e.target.id]: e.target.type === "number" ? +e.target.value : e.target.value  // Also: +e.target.value
-    }) 
+        [e.target.id]: e.target.id === "category" ? +e.target.value : (e.target.type === "number" ? +e.target.value : e.target.value) // I did it this way to handle both select and number input types
+      })
     }
 
     const isValidActivity = () => {
